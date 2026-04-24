@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nexo Web Studio</title>
+  <meta
+    name="description"
+    content="Páginas web para negocios locales que convierten visitas en mensajes por WhatsApp."
+  />
+  <style>
+    :root {
+      --bg: #0e1417;
+      --bg-2: #152126;
+      --panel: rgba(15, 24, 28, 0.78);
+      --soft: #1c2b31;
+      --text: #f7f2ea;
+      --muted: #b6beb8;
+      --line: rgba(255, 244, 224, 0.12);
+      --accent: #e4b676;
+      --accent-2: #f5dec0;
+      --accent-3: #7cc7ad;
+      --success: #25d366;
+      --max: 1140px;
+      --radius: 24px;
+      --shadow: 0 24px 70px rgba(0, 0, 0, 0.28);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Avenir Next", "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at top right, rgba(228, 182, 118, 0.18), transparent 26%),
+        radial-gradient(circle at 15% 20%, rgba(124, 199, 173, 0.11), transparent 24%),
+        linear-gradient(180deg, var(--bg) 0%, var(--bg-2) 100%);
+      color: var(--text);
+      line-height: 1.55;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    a:focus-visible,
+    button:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 4px;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    .wrap {
+      width: min(calc(100% - 32px), var(--max));
+      margin: 0 auto;
+    }
+
+    .section {
+      padding: 96px 0;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      border: 1px solid rgba(228, 182, 118, 0.2);
+      border-radius: 999px;
+      color: var(--accent-2);
+      background: rgba(228, 182, 118, 0.07);
+      font-size: 12px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: linear-gradient(180deg, var(--accent) 0%, #c7873d 100%);
+      box-shadow: 0 0 18px rgba(228, 182, 118, 0.45);
+    }
+
+    .title,
+    h2,
+    h3 {
+      font-family: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, serif;
+    }
+
+    .title {
+      font-size: clamp(2.2rem, 5vw, 4.7rem);
+      line-height: 0.98;
+      margin: 18px 0;
+      letter-spacing: -0.04em;
+      max-width: 12ch;
+    }
+
+    .subtitle {
+      color: var(--muted);
+      font-size: clamp(1rem, 2.2vw, 1.16rem);
+      max-width: 740px;
+    }
+
+    .grid {
+      display: grid;
+      gap: 24px;
+    }
+
+    .btns {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: 30px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      min-height: 54px;
+      padding: 0 22px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      transition: transform 0.25s ease, border-color 0.25s ease, background 0.25s ease;
+      font-weight: 700;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      border-color: rgba(228, 182, 118, 0.28);
+    }
+
+    .btn-primary {
+      background: linear-gradient(180deg, var(--accent) 0%, #d69851 100%);
+      color: #17110b;
+      border-color: transparent;
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.02);
+      color: var(--text);
+    }
+
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 30;
+      backdrop-filter: blur(16px);
+      background: rgba(11, 17, 20, 0.72);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .nav-inner {
+      min-height: 78px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .brand {
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      font-size: 1.08rem;
+    }
+
+    .brand span {
+      color: var(--accent);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 18px;
+      color: var(--muted);
+      font-size: 0.95rem;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .nav-links a:hover {
+      color: var(--text);
+    }
+
+    .hero {
+      padding: 82px 0 64px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.08fr) minmax(320px, 0.92fr);
+      gap: 28px;
+      align-items: stretch;
+    }
+
+    .hero-card,
+    .panel {
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .hero-card {
+      padding: 38px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-card::after {
+      content: "";
+      position: absolute;
+      inset: auto -18% -30% auto;
+      width: 260px;
+      height: 260px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(124, 199, 173, 0.14), transparent 62%);
+      pointer-events: none;
+    }
+
+    .hero-note {
+      margin-top: 22px;
+      padding: 14px 16px;
+      border-left: 3px solid rgba(228, 182, 118, 0.7);
+      background: rgba(255, 255, 255, 0.03);
+      color: var(--accent-2);
+      max-width: 42rem;
+    }
+
+    .hero-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-top: 30px;
+    }
+
+    .stat {
+      padding: 18px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 1.12rem;
+      margin-bottom: 4px;
+    }
+
+    .stat span {
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .mockup {
+      padding: 18px;
+      display: flex;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .mockup::before {
+      content: "";
+      position: absolute;
+      inset: 18px auto auto 18px;
+      width: 120px;
+      height: 120px;
+      border-radius: 24px;
+      background: linear-gradient(180deg, rgba(228, 182, 118, 0.14), rgba(228, 182, 118, 0));
+      filter: blur(4px);
+    }
+
+    .screen {
+      width: 100%;
+      border-radius: 22px;
+      background: #0f171b;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .screen-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      padding: 12px 14px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      background: #131d23;
+    }
+
+    .screen-dots {
+      display: flex;
+      gap: 8px;
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      background: #33424a;
+    }
+
+    .screen-chip {
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      color: var(--accent-2);
+      border-radius: 999px;
+      padding: 6px 10px;
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .screen-body {
+      padding: 22px;
+      display: grid;
+      gap: 16px;
+    }
+
+    .screen-hero,
+    .screen-line,
+    .screen-box {
+      border-radius: 18px;
+      background: linear-gradient(180deg, rgba(228, 182, 118, 0.14), rgba(255, 255, 255, 0.02));
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .screen-hero {
+      min-height: 164px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .screen-hero::after {
+      content: "";
+      position: absolute;
+      inset: auto 18px 18px auto;
+      width: 76px;
+      height: 76px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(124, 199, 173, 0.38), transparent 70%);
+    }
+
+    .screen-line {
+      height: 14px;
+    }
+
+    .screen-box {
+      min-height: 76px;
+    }
+
+    .screen-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+    }
+
+    .cards-3 {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .cards-2 {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .card {
+      padding: 26px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 22px;
+    }
+
+    .card h3 {
+      margin: 0 0 10px;
+      font-size: 1.14rem;
+    }
+
+    .card p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .list {
+      display: grid;
+      gap: 14px;
+      margin-top: 26px;
+    }
+
+    .list-item {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 14px;
+      align-items: start;
+      padding: 16px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .badge {
+      width: 34px;
+      height: 34px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(228, 182, 118, 0.12);
+      color: var(--accent-2);
+      font-weight: 700;
+      font-size: 0.9rem;
+    }
+
+    .quote {
+      padding: 32px;
+      font-size: clamp(1.25rem, 2.1vw, 1.7rem);
+      color: var(--accent-2);
+      line-height: 1.28;
+      display: grid;
+      align-content: center;
+      background:
+        radial-gradient(circle at top right, rgba(124, 199, 173, 0.16), transparent 28%),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.02));
+    }
+
+    .quote small {
+      display: block;
+      margin-top: 18px;
+      color: var(--muted);
+      font-size: 0.9rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .cta-box {
+      padding: 36px;
+      display: grid;
+      gap: 18px;
+      align-items: center;
+      grid-template-columns: 1.2fr 0.8fr;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-box::after {
+      content: "";
+      position: absolute;
+      inset: auto auto -60px -60px;
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(228, 182, 118, 0.12), transparent 70%);
+    }
+
+    .footer {
+      padding: 30px 0 60px;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .footer-inner {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      justify-content: space-between;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      padding-top: 24px;
+    }
+
+    .whatsapp-float {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      z-index: 50;
+      background: var(--success);
+      color: #fff;
+      border-radius: 999px;
+      padding: 14px 18px;
+      font-weight: 700;
+      box-shadow: 0 16px 36px rgba(37, 211, 102, 0.28);
+    }
+
+    .whatsapp-float:hover {
+      transform: translateY(-2px);
+    }
+
+    @media (max-width: 980px) {
+      .hero-grid,
+      .cta-box,
+      .cards-3,
+      .cards-2 {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-stats {
+        grid-template-columns: 1fr;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .title {
+        max-width: none;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .hero-card,
+      .cta-box,
+      .card,
+      .quote {
+        padding: 22px;
+      }
+
+      .section {
+        padding: 76px 0;
+      }
+
+      .hero {
+        padding-top: 54px;
+      }
+
+      .btn {
+        width: 100%;
+      }
+
+      .btns {
+        display: grid;
+      }
+
+      .screen-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="nav">
+    <div class="wrap nav-inner">
+      <a class="brand" href="#inicio">Nexo <span>Web Studio</span></a>
+      <nav class="nav-links" aria-label="Navegación principal">
+        <a href="#servicios">Servicios</a>
+        <a href="#nichos">Nichos</a>
+        <a href="#proceso">Proceso</a>
+        <a href="#contacto">Contacto</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="inicio">
+    <section class="hero">
+      <div class="wrap hero-grid">
+        <div class="hero-card">
+          <span class="eyebrow">Presencia que convierte</span>
+          <h1 class="title">Páginas web para negocios locales que convierten visitas en mensajes por WhatsApp.</h1>
+          <p class="subtitle">
+            Ayudamos a negocios a verse profesionales en internet, mostrar su información con claridad
+            y generar más contacto sin complicar el proceso.
+          </p>
+          <p class="hero-note">
+            Diseñamos páginas pensadas para que una persona entienda tu negocio rápido, confíe en ti y
+            dé el siguiente paso sin perderse entre redes, mensajes o capturas.
+          </p>
+          <div class="btns">
+            <a
+              class="btn btn-primary"
+              href="https://wa.me/525500000000?text=Hola,%20quiero%20informaci%C3%B3n%20sobre%20una%20p%C3%A1gina%20web"
+              target="_blank"
+              rel="noopener noreferrer"
+            >Solicitar propuesta</a>
+            <a class="btn btn-secondary" href="#servicios">Ver servicios</a>
+          </div>
+          <div class="hero-stats">
+            <div class="stat">
+              <strong>Claridad</strong>
+              <span>Tu negocio se entiende rápido.</span>
+            </div>
+            <div class="stat">
+              <strong>Presencia</strong>
+              <span>Imagen seria y profesional.</span>
+            </div>
+            <div class="stat">
+              <strong>Contacto</strong>
+              <span>Más mensajes por WhatsApp.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel mockup" aria-hidden="true">
+          <div class="screen">
+            <div class="screen-top">
+              <div class="screen-dots">
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+              </div>
+              <span class="screen-chip">Demo Studio</span>
+            </div>
+            <div class="screen-body">
+              <div class="screen-hero"></div>
+              <div class="screen-line"></div>
+              <div class="screen-line" style="width: 82%;"></div>
+              <div class="screen-grid">
+                <div class="screen-box"></div>
+                <div class="screen-box"></div>
+              </div>
+              <div class="screen-grid">
+                <div class="screen-box"></div>
+                <div class="screen-box"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="servicios">
+      <div class="wrap">
+        <span class="eyebrow">Servicios</span>
+        <h2 class="title" style="font-size: clamp(1.8rem, 4vw, 3rem);">
+          Una página clara, estética y pensada para generar contacto.
+        </h2>
+        <p class="subtitle">
+          No vendemos IA como concepto abstracto. Diseñamos presencia digital útil: más claridad, más
+          confianza y más mensajes.
+        </p>
+        <div class="grid cards-3" style="margin-top: 30px;">
+          <article class="card">
+            <h3>Landing page profesional</h3>
+            <p>
+              Una página limpia y bien estructurada con servicios, galería, ubicación, horarios y
+              llamada clara a la acción.
+            </p>
+          </article>
+          <article class="card">
+            <h3>WhatsApp integrado</h3>
+            <p>
+              Botón flotante, enlaces directos y una ruta de contacto simple para que el cliente
+              escriba sin fricción.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Base para crecer</h3>
+            <p>
+              Tu web lista para después sumar Google Business Profile, respuestas automáticas y
+              seguimiento.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="nichos">
+      <div class="wrap grid cards-2">
+        <div class="panel" style="padding: 30px;">
+          <span class="eyebrow">Nichos</span>
+          <h2 style="font-size: clamp(1.6rem, 3vw, 2.4rem); margin: 18px 0 10px;">
+            Pensado para negocios donde la confianza y el contacto importan.
+          </h2>
+          <p class="subtitle" style="max-width: none;">
+            Nicho principal: estéticas. Nichos secundarios: consultorios y autolavados. La lógica es
+            simple: son negocios donde pesan mucho la cita, el contacto directo, la ubicación, los
+            horarios y la respuesta rápida por WhatsApp.
+          </p>
+          <div class="list">
+            <div class="list-item">
+              <span class="badge">1</span>
+              <div>
+                <strong>Estéticas</strong><br />
+                <span style="color: var(--muted);">
+                  Imagen, citas, servicios, promociones y presencia visual cuidada.
+                </span>
+              </div>
+            </div>
+            <div class="list-item">
+              <span class="badge">2</span>
+              <div>
+                <strong>Consultorios</strong><br />
+                <span style="color: var(--muted);">
+                  Seriedad, ubicación, horarios, contacto rápido y confianza.
+                </span>
+              </div>
+            </div>
+            <div class="list-item">
+              <span class="badge">3</span>
+              <div>
+                <strong>Autolavados</strong><br />
+                <span style="color: var(--muted);">
+                  Servicios claros, diferenciación y facilidad para cotizar o agendar.
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <aside class="panel quote">
+          “No te vendo una página por verte bonito; te vendo una página para que te encuentren, confíen
+          en tu negocio y te escriban por WhatsApp.”
+          <small>Nexo Web Studio</small>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="wrap">
+        <span class="eyebrow">Qué resolvemos</span>
+        <div class="grid cards-3" style="margin-top: 28px;">
+          <article class="card">
+            <h3>Información dispersa</h3>
+            <p>
+              Cuando todo vive entre Instagram, mensajes y capturas, el cliente se confunde y no
+              contacta.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Imagen amateur</h3>
+            <p>
+              Una presencia mal presentada le resta seriedad incluso a un negocio bueno.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Poca conversión</h3>
+            <p>
+              Sin un camino claro a WhatsApp, se pierden mensajes, citas y oportunidades reales.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="proceso">
+      <div class="wrap">
+        <span class="eyebrow">Proceso</span>
+        <h2 class="title" style="font-size: clamp(1.8rem, 4vw, 3rem);">
+          Un proceso simple, rápido y claro.
+        </h2>
+        <div class="grid cards-2" style="margin-top: 28px;">
+          <article class="card">
+            <h3>1. Diagnóstico</h3>
+            <p>
+              Revisamos tu negocio, lo que vendes, cómo te presentas hoy y qué te está faltando para
+              convertir mejor.
+            </p>
+          </article>
+          <article class="card">
+            <h3>2. Estructura</h3>
+            <p>Definimos mensaje, secciones, información clave, CTA y tono de la página.</p>
+          </article>
+          <article class="card">
+            <h3>3. Diseño</h3>
+            <p>Construimos una página estética, rápida y enfocada en mostrar bien tu negocio.</p>
+          </article>
+          <article class="card">
+            <h3>4. Publicación</h3>
+            <p>
+              Se publica, se conecta dominio cuando toque y se deja lista para generar contacto real.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="wrap panel cta-box">
+        <div>
+          <span class="eyebrow">Nexo Web Studio</span>
+          <h2 style="font-size: clamp(1.8rem, 4vw, 3rem); margin: 18px 0 12px;">
+            Haz que tu negocio se vea mejor y te contacten más fácil.
+          </h2>
+          <p class="subtitle" style="max-width: none;">
+            Presencia clara. Imagen seria. Estructura útil. Una web hecha para que el siguiente paso
+            sea escribirte.
+          </p>
+        </div>
+        <div class="btns" style="margin-top: 0; align-self: center; justify-content: flex-end;">
+          <a
+            class="btn btn-primary"
+            href="https://wa.me/525500000000?text=Hola,%20quiero%20informaci%C3%B3n%20sobre%20una%20p%C3%A1gina%20web"
+            target="_blank"
+            rel="noopener noreferrer"
+          >Escribir por WhatsApp</a>
+          <a class="btn btn-secondary" href="mailto:hola@nexowebstudio.com">Enviar correo</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer" id="contacto">
+    <div class="wrap footer-inner">
+      <div>Nexo Web Studio</div>
+      <div>Páginas web para negocios locales que convierten visitas en mensajes por WhatsApp.</div>
+    </div>
+  </footer>
+
+  <a
+    class="whatsapp-float"
+    href="https://wa.me/525500000000?text=Hola,%20quiero%20informaci%C3%B3n%20sobre%20una%20p%C3%A1gina%20web"
+    target="_blank"
+    rel="noopener noreferrer"
+    aria-label="Escribir por WhatsApp a Nexo Web Studio"
+  >WhatsApp</a>
+</body>
+</html>
